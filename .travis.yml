@@ -1,0 +1,25 @@
+sudo: required
+
+services:
+- docker
+
+language: java
+jdk:
+- oraclejdk8
+
+env:
+  global:
+  - COMMIT: "${TRAVIS_COMMIT::6}"
+  - secure: HDuK8aK0UZaRjByj/2Lbj211CBX2Qe3QjDMRQdjxQpSjQOa/MYbWB/P0Ke4NpbhCwA6/PzBSvHvCoKwCwtF1JR/orUtVZrEY3duVFngOtNrLQ9771u1ZKV094ZBYDik8kkAqKDUcW5qgQ92Iw5D1eO591BGmMVpyijEkeNscPLbslFve2S+Dnd+ccnLtaYVSHqX2qE15MaznfDcIE5TmfHHavdLScXFmcipbLd0aqZr4kElJ6dQEUCg8gX9rLAgqRnc+o5asu581lX911y3Nt8NkCzOKDYaLC6ZChutAtz8l0qh7QoINZNVndf/QREhxU52XvWrHO2KHTs8ZtlCsdWt3HyeGkfRYokH4Nu0WQITXifv7yMdwiFmKdcXKAD4K9PAGZlUNCGDK750IDpzwoXWMcu/SCvyz+62fUjI4KFHIGSy8tpp6DsG9e0KHlI8xJuL8rBtydGCn4o/BtyJU9UYeOnI+eyyA+evkvPjNG5DNIz2NQZhhuwa5oYtBRyWwiCTM+wj9ce92bUZn7dB9PJ7SO+0smlqiCVI5QBpCbwSagK6LIO/781Jgn2cLRJ9E9Gf/3xVJSm/Ykrfou9Jl+kN6y4yzp+RRFQIEMUhnxqJt0hZ6J0+9wmJq4/WaYtn2QkjdFNZMJeDXwfAMTAQ0W9J6ykAdGBRwJt4fY7nbFfI=
+  - secure: qlW/5bT/cLeQHcrFlkJxraI4gMZYvO35nLFxtSis+4Y+yVCvx2qBAIJWxet17JTPRvdxQ/2BYxI6tj0fk2m1DMQJGs7Q8Xt48TvX0Y4S4w1TLK80YIMDHSjtB6FOGekF3hCs3IgmA6MPjtiRZMiSzdm6tPvldfSsApMOB4zzKy6Qu5cjRkwWrY0F/CtyxwfANuF+y0TIWcD6/omjSSSYgw27qPE+g+Y92TubbphuNmGHKDecK8t74fZFeowES8N5aBnr/HDY4feS/gXUYA4wpInNGAIcfGbt+kiABdbqm8lxrIZKto54FA9xyzeAhTHwVQlNkeE3CM3Gjbyg8EpU7K5VzMl0Q8y2a1sQ2ljW0/XDl1JElJUmyjRaXYlpqnB/gSxflTnNV+HtuuU5LzoTJcZeB8jJr6HRq2vhacAWMraNuuPphG2UQ3c39WotI5Ov2Po4pfThTYpyl2AC+Ngj9msTT9lPr3Wgms4Xa/8g49WcKuyvDKx9vVzThCdXOne6ilWcbcqQmXuP9bW5v3OA1UxbLOKAnWrw4+53AmlZBSrAR1+EugzpCXV4yGxdfULObDtqBLjC+l3DrVpb075Jw+b6mqQnEL8hncdrTLbBlPyvjO9AwzbsuX4pH/ltP+CrxYXo9RolZ+LYUMabI4RHy4oh4q85itaO3/ymw4EseH4=
+
+cache:
+  directories:
+  - "$HOME/.m2"
+
+script:
+- mvn clean install
+
+after_success:
+- docker login -u $DOCKER_USER -p $DOCKER_PASS
+- docker push shboland/edge-service
